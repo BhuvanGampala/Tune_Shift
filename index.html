@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>TuneShift: Musical Transmutation</title>
+  <style>
+    body {
+      font-family: 'Arial', sans-serif;
+      background: linear-gradient(135deg, #1a2a6c, #b21f1f, #fdbb2d);
+      color: white;
+      margin: 0;
+      padding: 0;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+    }
+    .container {
+      text-align: center;
+      background: rgba(0, 0, 0, 0.7);
+      padding: 30px;
+      border-radius: 15px;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+      max-width: 400px;
+      width: 100%;
+    }
+    h1 {
+      font-size: 2rem;
+      margin-bottom: 15px;
+      text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.7);
+    }
+    form {
+      margin: 20px 0;
+    }
+    input[type="file"] {
+      display: none;
+    }
+    label {
+      display: inline-block;
+      padding: 12px 20px;
+      font-size: 1rem;
+      background-color: #4caf50;
+      color: white;
+      border: none;
+      border-radius: 25px;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+    }
+    label:hover {
+      background-color: #45a049;
+    }
+    button {
+      margin-top: 15px;
+      padding: 12px 20px;
+      font-size: 1rem;
+      background-color: #008cba;
+      color: white;
+      border: none;
+      border-radius: 25px;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+    }
+    button:hover {
+      background-color: #007bb5;
+    }
+    audio {
+      margin-top: 20px;
+      width: 100%;
+      border-radius: 10px;
+    }
+    .flash-message {
+      margin: 20px 0;
+      padding: 15px;
+      background-color: #4CAF50;
+      color: white;
+      border-radius: 5px;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>TuneShift: Upload Your MP3 File</h1>
+    
+    <!-- Flash Message Section -->
+    {% with messages = get_flashed_messages(with_categories=true) %}
+      {% if messages %}
+        <div class="flash-message">
+          {% for category, message in messages %}
+            {{ message }}
+          {% endfor %}
+        </div>
+      {% endif %}
+    {% endwith %}
+
+    <form action="/" method="POST" enctype="multipart/form-data">
+      <label for="file-upload">Choose an MP3 File</label>
+      <input type="file" id="file-upload" name="file" accept=".mp3" required>
+      <button type="submit">Generate New Tune</button>
+    </form>
+
+    {% if output_file %}
+      <h2>Generated Output:</h2>
+      <audio controls>
+        <source src="{{ url_for('static', filename=output_file) }}" type="audio/mp3">
+        Your browser does not support the audio element.
+      </audio>
+    {% endif %}
+  </div>
+</body>
+</html>
